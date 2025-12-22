@@ -108,66 +108,38 @@
 
     let database = {}; // Empezamos con la caja vacía
 
-    // MODIFICACIÓN CLAVE: Usamos '/datos.json' y añadimos manejo de errores
-    fetch('/datos.json') 
-      .then(response => {
-        // Verificamos si la petición fue exitosa
-        if (!response.ok) {
-            throw new Error(`Error de red! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log("Datos cargados exitosamente:", data); // Mensaje de éxito en la consola
-        database = data;
-        
-        // Verificamos que los datos necesarios existan antes de inicializar
-        if (database && database.destacados && database.productos) {
-            init();
-        } else {
-            console.error("El archivo JSON no tiene la estructura esperada.");
-            document.getElementById('main-slider').innerHTML = '<p style="color:white; text-align:center;">Error: Estructura de datos incorrecta.</p>';
-        }
-      })
-      .catch(error => {
-        // Si falla el fetch, mostramos un error claro en la consola y en la página
-        console.error("No se pudo cargar el archivo datos.json. ¿Está en la raíz del repositorio?", error);
-        document.getElementById('main-slider').innerHTML = '<p style="color:white; text-align:center;">Error al cargar el contenido. Revisa la consola (F12).</p>';
-      });
+// Esta función va a buscar el archivo .json real
+fetch('datos.json') 
+  .then(response => response.json())
+  .then(data => {
+    database = data; // Ahora la caja se llena con lo que hay en datos.json
+    init(); // Recién ahora dibujamos los productos en la pantalla
+  });
 
     function init() {
         // Cargar texto de About
-        const aboutDesc = document.getElementById('about-description');
-        if (aboutDesc && database.empresa && database.empresa.about_text) {
-            aboutDesc.innerText = database.empresa.about_text;
-        }
+        document.getElementById('about-description').innerText = database.empresa.about_text;
 
         // Cargar Slider
-        const sliderContainer = document.getElementById('main-slider');
-        if (sliderContainer && database.destacados) {
-            sliderContainer.innerHTML = database.destacados.map((d, i) => `
-                <div class="slide ${i === 0 ? 'active' : ''}">
-                    <img src="${d.img}" alt="${d.nombre}">
-                    <div class="slide-content">
-                        <h2>${d.nombre}</h2>
-                        <p>${d.frase}</p>
-                    </div>
+        document.getElementById('main-slider').innerHTML = database.destacados.map((d, i) => `
+            <div class="slide ${i === 0 ? 'active' : ''}">
+                <img src="${d.img}">
+                <div class="slide-content">
+                    <h2>${d.nombre}</h2>
+                    <p>${d.frase}</p>
                 </div>
-            `).join('');
-        }
+            </div>
+        `).join('');
 
         // Cargar Catálogo
-        const productGrid = document.getElementById('product-grid');
-        if (productGrid && database.productos) {
-            productGrid.innerHTML = database.productos.map(p => `
-                <div class="card" onclick="openDetail(${p.id})">
-                    <img src="${p.img}" alt="${p.nombre}">
-                    <div style="color:var(--gold); font-size:0.7rem; margin-top:15px; letter-spacing:1px;">${p.categoria}</div>
-                    <h3 style="font-family:'Playfair Display'; margin: 5px 0;">${p.nombre}</h3>
-                    <p style="font-weight:bold; color:var(--burgundy);">$${p.precio}</p>
-                </div>
-            `).join('');
-        }
+        document.getElementById('product-grid').innerHTML = database.productos.map(p => `
+            <div class="card" onclick="openDetail(${p.id})">
+                <img src="${p.img}">
+                <div style="color:var(--gold); font-size:0.7rem; margin-top:15px; letter-spacing:1px;">${p.categoria}</div>
+                <h3 style="font-family:'Playfair Display'; margin: 5px 0;">${p.nombre}</h3>
+                <p style="font-weight:bold; color:var(--burgundy);">$${p.precio}</p>
+            </div>
+        `).join('');
 
         startSlider();
     }
@@ -181,8 +153,6 @@
 
     function startSlider() {
         const slides = document.querySelectorAll('.slide');
-        if (slides.length === 0) return; // No hacer nada si no hay slides
-
         let current = 0;
         setInterval(() => {
             slides[current].classList.remove('active');
@@ -191,45 +161,47 @@
         }, 5000);
     }
 
-    function openDetail(id) {
-        const p = database.productos.find(item => item.id === id);
-        if (!p) return;
+function openDetail(id) {
+    // Buscamos el producto en la base de datos
+    const p = database.productos.find(item => item.id === id);
+    
+    // Si no encuentra el producto, salimos para evitar errores
+    if (!p) return;
 
-        document.getElementById('detail-data').innerHTML = `
-            <div style="flex: 1; min-height: 50vh;">
-                <img src="${p.img}" style="width:100%; height:100%; object-fit:cover;">
-            </div>
-            <div style="flex: 1; padding: 10%; display: flex; flex-direction: column; justify-content: center;">
-                <p style="color: var(--gold); letter-spacing: 2px; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px;">
-                    ${p.categoria ? p.categoria.toUpperCase() : 'JOYERÍA'}
-                </p>
-                <h1 style="font-family: 'Playfair Display'; font-size: 3rem; margin: 0;">${p.nombre}</h1>
-                
-                <p style="margin: 20px 0; font-size: 1.1rem; border-left: 3px solid var(--gold); padding-left: 15px;">
-                    <strong>Medidas:</strong> ${p.medidas ? p.medidas : 'Consúltanos por medidas personalizadas'}
-                </p>
+    document.getElementById('detail-data').innerHTML = `
+        <div style="flex: 1; min-height: 50vh;">
+            <img src="${p.img}" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div style="flex: 1; padding: 10%; display: flex; flex-direction: column; justify-content: center;">
+            <p style="color: var(--gold); letter-spacing: 2px; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px;">
+                ${p.categoria ? p.categoria.toUpperCase() : 'JOYERÍA'}
+            </p>
+            <h1 style="font-family: 'Playfair Display'; font-size: 3rem; margin: 0;">${p.nombre}</h1>
+            
+            <p style="margin: 20px 0; font-size: 1.1rem; border-left: 3px solid var(--gold); padding-left: 15px;">
+                <strong>Medidas:</strong> ${p.medidas ? p.medidas : 'Consúltanos por medidas personalizadas'}
+            </p>
 
-                <p style="line-height: 1.8; color: #666; margin-bottom: 30px;">${p.desc}</p>
-                
-                <h2 style="color: var(--burgundy); font-size: 2.5rem; margin-bottom: 30px;">$${p.precio}</h2>
-                
-                <a href="https://wa.me/${database.empresa.whatsapp}?text=Hola! Me interesa el ${p.nombre}. ¿Me podrías dar más información?" class="btn-ws">
-                    PEDIR POR WHATSAPP
-                </a>
-                
-                <p style="margin-top: 25px; font-size: 0.8rem; color: #999;">
-                    Pieza artesanal por L°S Jewellery
-                </p>
-            </div>
-        `;
-        
-        const view = document.getElementById('detail-view');
-        view.style.display = 'flex';
-    }
+            <p style="line-height: 1.8; color: #666; margin-bottom: 30px;">${p.desc}</p>
+            
+            <h2 style="color: var(--burgundy); font-size: 2.5rem; margin-bottom: 30px;">$${p.precio}</h2>
+            
+            <a href="https://wa.me/${database.empresa.whatsapp}?text=Hola! Me interesa el ${p.nombre}. ¿Me podrías dar más información?" class="btn-ws">
+                PEDIR POR WHATSAPP
+            </a>
+            
+            <p style="margin-top: 25px; font-size: 0.8rem; color: #999;">
+                Pieza artesanal por L°S Jewellery
+            </p>
+        </div>
+    `;
+    
+    // Cambiamos el estilo a flex para que se vea bien en pantalla dividida
+    const view = document.getElementById('detail-view');
+    view.style.display = 'flex';
+}
 
-    function closeDetail() { 
-        document.getElementById('detail-view').style.display = 'none'; 
-    }
+    function closeDetail() { document.getElementById('detail-view').style.display = 'none'; }
 
 </script>
 </body>
