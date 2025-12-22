@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>L°S Jewellery | Official Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --burgundy: #5C1A20; --gold: #D4AF37; --cream: #FDFBF7; --text: #333; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--cream); margin: 0; color: var(--text); }
+
+        /* NAVBAR PROFESIONAL */
+        nav { background: white; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .logo { font-family: 'Playfair Display'; font-size: 1.8rem; color: var(--burgundy); text-decoration: none; font-weight: bold; }
+        .nav-links a { text-decoration: none; color: var(--text); font-size: 0.75rem; letter-spacing: 2px; margin-left: 25px; font-weight: 600; text-transform: uppercase; cursor: pointer; }
+        .nav-links a:hover { color: var(--gold); }
+
+        /* GESTIÓN DE PÁGINAS */
+        .page { display: none; animation: fadeIn 0.5s ease-in-out; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* SLIDER (PÁGINA INICIO) */
+        .hero-slider { position: relative; height: 75vh; overflow: hidden; background: #000; }
+        .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s; display: flex; align-items: center; justify-content: center; }
+        .slide.active { opacity: 1; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
+        .slide-content { position: absolute; color: white; text-align: center; }
+        .slide-content h2 { font-family: 'Playfair Display'; font-size: 3rem; margin: 0; }
+
+        /* CATALOGO GRID */
+        .container { padding: 60px 5%; max-width: 1200px; margin: auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .card { background: white; padding: 15px; cursor: pointer; text-align: center; transition: 0.3s; }
+        .card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .card img { width: 100%; height: 380px; object-fit: cover; }
+
+        /* PÁGINA ABOUT (ESTILO REVISTA) */
+        .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; padding: 80px 0; }
+        .about-text h1 { font-family: 'Playfair Display'; font-size: 3rem; color: var(--burgundy); }
+        .about-text p { line-height: 2; color: #555; font-size: 1.1rem; }
+        .about-img img { width: 100%; border-radius: 4px; filter: grayscale(20%); }
+
+        /* MODAL DETALLE */
+        #detail-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; display: none; overflow-y: auto; }
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+        .close-btn { position: absolute; top: 25px; right: 35px; font-size: 3rem; cursor: pointer; color: var(--burgundy); }
+        .btn-ws { background: var(--burgundy); color: white; padding: 18px 40px; text-decoration: none; display: inline-block; font-weight: bold; margin-top: 30px; }
+
+        @media (max-width: 850px) { .about-content, .detail-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a onclick="navigateTo('home')" class="logo">L°S</a>
+    <div class="nav-links">
+        <a onclick="navigateTo('home')">Catálogo</a>
+        <a onclick="navigateTo('about')">Sobre Nosotros</a>
+    </div>
+</nav>
+
+<div id="page-home" class="page active">
+    <section class="hero-slider" id="main-slider"></section>
+    
+    <div class="container">
+        <h2 style="text-align:center; font-family:'Playfair Display'; font-size: 2.5rem; margin-bottom: 40px;">Nuestra Colección</h2>
+        <div id="product-grid" class="grid"></div>
+    </div>
+</div>
+
+<div id="page-about" class="page">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text">
+                <p style="color: var(--gold); letter-spacing: 3px; font-weight: bold; font-size: 0.8rem;">CONOCE L°S</p>
+                <h1 style="font-family: 'Playfair Display'; font-size: 3rem; color: var(--burgundy); margin: 10px 0 30px 0;">
+                    Hecho a mano, <br>pensado para ti.
+                </h1>
+                
+                <p id="about-description" style="line-height: 2; color: #555; font-size: 1.1rem; margin-bottom: 20px;">
+                    </p>
+
+                <p style="line-height: 2; color: #555; font-size: 1.1rem;">
+                    Creemos que los accesorios no son solo complementos, sino una forma de contar quién eres sin decir una palabra. Cada una de nuestras piezas nace de un proceso lento y cuidadoso, buscando ese equilibrio perfecto entre la fuerza y la delicadeza.
+                </p>
+
+                <div style="margin-top: 40px; border-left: 2px solid var(--gold); padding-left: 20px; font-style: italic; color: #777;">
+                    "Joyas que te acompañan en tu historia diaria."
+                </div>
+            </div>
+
+            <div class="about-img" style="position: relative;">
+                <img src="https://images.unsplash.com/photo-1515562141207-7a18b5ce7142?auto=format&fit=crop&w=800" 
+                     alt="Sobre nosotros" 
+                     style="width: 100%; border-radius: 0; filter: sepia(20%);">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="detail-view">
+    <span class="close-btn" onclick="closeDetail()">&times;</span>
+    <div id="detail-data" class="detail-grid"></div>
+</div>
+
+<script>
+
+    let database = {}; // Empezamos con la caja vacía
+
+    // MODIFICACIÓN CLAVE: Usamos '/datos.json' y añadimos manejo de errores
+    fetch('/datos.json') 
+      .then(response => {
+        // Verificamos si la petición fue exitosa
+        if (!response.ok) {
+            throw new Error(`Error de red! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Datos cargados exitosamente:", data); // Mensaje de éxito en la consola
+        database = data;
+        
+        // Verificamos que los datos necesarios existan antes de inicializar
+        if (database && database.destacados && database.productos) {
+            init();
+        } else {
+            console.error("El archivo JSON no tiene la estructura esperada.");
+            document.getElementById('main-slider').innerHTML = '<p style="color:white; text-align:center;">Error: Estructura de datos incorrecta.</p>';
+        }
+      })
+      .catch(error => {
+        // Si falla el fetch, mostramos un error claro en la consola y en la página
+        console.error("No se pudo cargar el archivo datos.json. ¿Está en la raíz del repositorio?", error);
+        document.getElementById('main-slider').innerHTML = '<p style="color:white; text-align:center;">Error al cargar el contenido. Revisa la consola (F12).</p>';
+      });
+
+    function init() {
+        // Cargar texto de About
+        const aboutDesc = document.getElementById('about-description');
+        if (aboutDesc && database.empresa && database.empresa.about_text) {
+            aboutDesc.innerText = database.empresa.about_text;
+        }
+
+        // Cargar Slider
+        const sliderContainer = document.getElementById('main-slider');
+        if (sliderContainer && database.destacados) {
+            sliderContainer.innerHTML = database.destacados.map((d, i) => `
+                <div class="slide ${i === 0 ? 'active' : ''}">
+                    <img src="${d.img}" alt="${d.nombre}">
+                    <div class="slide-content">
+                        <h2>${d.nombre}</h2>
+                        <p>${d.frase}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Cargar Catálogo
+        const productGrid = document.getElementById('product-grid');
+        if (productGrid && database.productos) {
+            productGrid.innerHTML = database.productos.map(p => `
+                <div class="card" onclick="openDetail(${p.id})">
+                    <img src="${p.img}" alt="${p.nombre}">
+                    <div style="color:var(--gold); font-size:0.7rem; margin-top:15px; letter-spacing:1px;">${p.categoria}</div>
+                    <h3 style="font-family:'Playfair Display'; margin: 5px 0;">${p.nombre}</h3>
+                    <p style="font-weight:bold; color:var(--burgundy);">$${p.precio}</p>
+                </div>
+            `).join('');
+        }
+
+        startSlider();
+    }
+
+    // Navegación entre páginas
+    function navigateTo(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-' + pageId).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function startSlider() {
+        const slides = document.querySelectorAll('.slide');
+        if (slides.length === 0) return; // No hacer nada si no hay slides
+
+        let current = 0;
+        setInterval(() => {
+            slides[current].classList.remove('active');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('active');
+        }, 5000);
+    }
+
+    function openDetail(id) {
+        const p = database.productos.find(item => item.id === id);
+        if (!p) return;
+
+        document.getElementById('detail-data').innerHTML = `
+            <div style="flex: 1; min-height: 50vh;">
+                <img src="${p.img}" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div style="flex: 1; padding: 10%; display: flex; flex-direction: column; justify-content: center;">
+                <p style="color: var(--gold); letter-spacing: 2px; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px;">
+                    ${p.categoria ? p.categoria.toUpperCase() : 'JOYERÍA'}
+                </p>
+                <h1 style="font-family: 'Playfair Display'; font-size: 3rem; margin: 0;">${p.nombre}</h1>
+                
+                <p style="margin: 20px 0; font-size: 1.1rem; border-left: 3px solid var(--gold); padding-left: 15px;">
+                    <strong>Medidas:</strong> ${p.medidas ? p.medidas : 'Consúltanos por medidas personalizadas'}
+                </p>
+
+                <p style="line-height: 1.8; color: #666; margin-bottom: 30px;">${p.desc}</p>
+                
+                <h2 style="color: var(--burgundy); font-size: 2.5rem; margin-bottom: 30px;">$${p.precio}</h2>
+                
+                <a href="https://wa.me/${database.empresa.whatsapp}?text=Hola! Me interesa el ${p.nombre}. ¿Me podrías dar más información?" class="btn-ws">
+                    PEDIR POR WHATSAPP
+                </a>
+                
+                <p style="margin-top: 25px; font-size: 0.8rem; color: #999;">
+                    Pieza artesanal por L°S Jewellery
+                </p>
+            </div>
+        `;
+        
+        const view = document.getElementById('detail-view');
+        view.style.display = 'flex';
+    }
+
+    function closeDetail() { 
+        document.getElementById('detail-view').style.display = 'none'; 
+    }
+
+</script>
+</body>
+</html>

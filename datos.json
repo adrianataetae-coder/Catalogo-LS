@@ -1,0 +1,83 @@
+{
+  "empresa": {
+    "nombre": "L°S Jewellery",
+    "whatsapp": "5491122334455",
+    "about_text": "L°S Jewellery nace de la pasión por transformar materiales resistentes y perlas naturales en piezas de arte cotidiano."
+  },
+  "destacados": [
+    {
+      "id": 101,
+      "nombre": "Choker 'Luz de Luna'",
+      "frase": "Elegancia natural en cada perla.",
+      "img": "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1200"
+    },
+    {
+      "id": 102,
+      "nombre": "Anillo 'Sol Naciente'",
+      "frase": "El poder de un nuevo amanecer en tu mano.",
+      "img": "https://images.unsplash.com/photo-1615655406736-b37b69f09c4f?auto=format&fit=crop&w=1200"
+    },
+    {
+      "id": 103,
+      "nombre": "Aretes 'Estrella Fugaz'",
+      "frase": "Capta un instante de magia cósmica.",
+      "img": "https://images.unsplash.com/photo-1635766032928-61a8ad5a79b0?auto=format&fit=crop&w=1200"
+    }
+  ],
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Brazalete 'Nudo'",
+      "categoria": "Pulsos",
+      "precio": 18,
+      "medidas": "Ajustable a cualquier muñeca",
+      "img": "https://images.unsplash.com/photo-1611085583191-a3b130a88dc1?auto=format&fit=crop&w=500",
+      "desc": "Un diseño minimalista y moderno que se adapta perfectamente a tu estilo diario."
+    },
+    {
+      "id": 2,
+      "nombre": "Aros Perla Barroca",
+      "categoria": "Aretes",
+      "precio": 20,
+      "medidas": "Largo total: 3.5 cm",
+      "img": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=500",
+      "desc": "Perlas naturales que aportan un brillo único a tu rostro. Muy ligeros."
+    },
+    {
+      "id": 3,
+      "nombre": "Collar Inicial",
+      "categoria": "Collares",
+      "precio": 25,
+      "medidas": "Largo: 45 cm + 5 cm de extensión",
+      "img": "https://images.unsplash.com/photo-1602751584412-7000ad4cd3f2?auto=format&fit=crop&w=500",
+      "desc": "El regalo perfecto o el detalle ideal para personalizar tu look."
+    },
+    {
+      "id": 4,
+      "nombre": "Anillo 'Océano'",
+      "categoria": "Anillos",
+      "precio": 15,
+      "medidas": "Talla única (Ajustable)",
+      "img": "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=500",
+      "desc": "Inspirado en el movimiento del mar. Una pieza delicada pero con gran presencia."
+    },
+    {
+      "id": 5,
+      "nombre": "Tobillera 'Brisa'",
+      "categoria": "Tobilleras",
+      "precio": 12,
+      "medidas": "22 cm + 4 cm de extensión",
+      "img": "https://images.unsplash.com/photo-1535633602481-d0356e488702?auto=format&fit=crop&w=500",
+      "desc": "El toque sutil para tus días de sol. Cómoda y resistente al agua."
+    },
+    {
+      "id": 6,
+      "nombre": "Collar Doble 'Viena'",
+      "categoria": "Collares",
+      "precio": 30,
+      "medidas": "Cadenas de 40 cm y 50 cm",
+      "img": "https://images.unsplash.com/photo-1515562141207-7a18b5ce7142?auto=format&fit=crop&w=500",
+      "desc": "Efecto layering en una sola pieza. Combina diferentes grosores para un estilo sofisticado."
+    }
+  ]
+}
